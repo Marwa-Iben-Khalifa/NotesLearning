@@ -1,28 +1,61 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import Home from './src/Futures/Home';
-import Detail from './src/Futures/Detail'
+import { StatusBar } from "expo-status-bar";
+import { StyleSheet, Text, View } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import Home from "./src/Futures/Home";
+import Detail from "./src/Futures/New";
+import MyNotes from "./src/Futures/MyNotes";
+import Notes from "./src/Futures/Notes";
+import Feather from "@expo/vector-icons/Feather";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
+const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen name="Home" component={Home} />
-        <Stack.Screen name="Detail" component={Detail} />
-      </Stack.Navigator>
+      <Tab.Navigator
+        initialRouteName="Home"
+        screenOptions={{ headerShown: false }}
+      >
+        <Tab.Screen
+          name="Home"
+          component={Home}
+          options={{
+            tabBarIcon: ({ color, size, focused }) => {
+              return <Feather name="home" size={30} />;
+            }
+          }}
+        />
+        <Tab.Screen
+          name="Notes"
+          component={Notes}
+          options={{
+            tabBarIcon: ({ color, size, focused }) => {
+              return <Feather name="list" size={30} />;
+            }
+          }}
+        />
+        <Tab.Screen
+          name="My Notes"
+          component={MyNotes}
+          options={{
+            tabBarIcon: ({ color, size, focused }) => {
+              return <Feather name="activity" size={30} />;
+            }
+          }}
+        />
+        <Tab.Screen
+          name="New"
+          component={Detail}
+          options={{
+            tabBarIcon: ({ color, size, focused }) => {
+              return <Feather name="plus" size={30} />;
+            }
+          }}
+        />
+      </Tab.Navigator>
     </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

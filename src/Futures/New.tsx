@@ -1,21 +1,20 @@
 import React from "react";
-import {StyleSheet, View, Text } from "react-native";
+import { StyleSheet,View, Text } from "react-native";
 
-export default function Home({ navigation }: { navigation: any }) {
+export default function New({ navigation }: { navigation: any }) {
   return (
     <View style={styles.container}>
-      <Text>Voici la home Page</Text>
+      <Text>Voici la page new</Text>
       {/* <Text
         onPress={() => {
-          navigation.navigate("Detail");
+          navigation.navigate("Home");
         }}
       >
-        Aller sur la page Detail
+        Aller sur la page Home
       </Text> */}
     </View>
   );
 }
-
 
 const styles = StyleSheet.create({
   container: {
