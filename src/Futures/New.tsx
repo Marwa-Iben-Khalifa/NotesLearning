@@ -1,17 +1,15 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet,View, Text } from "react-native";
-
+import NewNote from "../Components/NewNote"
 export default function New({ navigation }: { navigation: any }) {
+  const [values, setValues] = useState({})
+  useEffect(() => {
+    console.log(values)
+  },[values])
   return (
     <View style={styles.container}>
       <Text>Voici la page new</Text>
-      {/* <Text
-        onPress={() => {
-          navigation.navigate("Home");
-        }}
-      >
-        Aller sur la page Home
-      </Text> */}
+      <NewNote setValues={setValues}></NewNote>
     </View>
   );
 }
