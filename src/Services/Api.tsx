@@ -11,7 +11,7 @@ class DataService {
     return http.delete<any>(`/${id}`);
   }
   findByAuthor(author: string) {
-    return http.get<Array<INote>>(`?author=${author}`);
+    return http.get<Array<INote>>(`/?author=${author}`);
   }
 }
 export default new DataService();
