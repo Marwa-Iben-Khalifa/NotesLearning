@@ -1,11 +1,11 @@
 import React from "react";
-import {StyleSheet, View, Text } from "react-native";
+import {StyleSheet, View, Text} from "react-native";
 
 export default function Home({ navigation }: { navigation: any }) {
   return (
     <View style={styles.container}>
       <Text>Voici la home Page</Text>
-      {/* <Text
+            {/* <Text
         onPress={() => {
           navigation.navigate("Detail");
         }}

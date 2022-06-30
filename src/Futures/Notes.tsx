@@ -18,9 +18,9 @@ export default function Notes({ navigation }: { navigation: any }) {
     <View style={styles.container}>
       <ScrollView >
         {notes.map((el) => (
-          <Card key={el._id}>
-            {el.title}
-            {el.text}
+          <Card key={el._id} title={el.title} text={el.text}>
+            {"\n"}
+            
         </Card>
       ))}
       </ScrollView>
