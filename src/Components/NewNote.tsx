@@ -1,31 +1,46 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { View, TextInput, Switch, Text } from "react-native";
 import { Formik } from "formik";
 import Button from "./Button";
+import DataService from "../Services/Api";
+import { INote } from "../utils/types";
 
 interface MyFormValues {
   firstName: string;
 }
 export default function NewNote({
-  setValues
+  setValues,
 }: {
   setValues: React.Dispatch<React.SetStateAction<{}>>;
 }) {
-  const [anonymeVal, setAnonymeVal]=useState(false)
-  const toggleSwitch = () => setAnonymeVal(previousState => !previousState);
+  const sendNote = async (values: any) => {
+    const response = await DataService.create(values);
+    return console.log(response.data);
+  };
+  const [anonymeVal, setAnonymeVal] = useState(false);
+  const toggleSwitch = () => setAnonymeVal((previousState) => !previousState);
   return (
     <View
       style={{
         backgroundColor: "white",
         borderBottomColor: "#000000",
-        borderBottomWidth: 1
+        borderBottomWidth: 1,
       }}
     >
       <Formik
         initialValues={{ title: "", tags: "", note: "", anonyme: anonymeVal }}
-        onSubmit={values => setValues(values)}
+        onSubmit={(values) => {
+          const note: INote = {
+            title: values.title,
+            anonym: values.anonyme,
+            tags: values.tags.split("#"),
+            text: values.note,
+          };
+          // setValues({ title: "", tags: "", note: "", anonyme: anonymeVal });
+          sendNote(note);
+        }}
       >
-        {({ handleChange, handleBlur, handleSubmit, values }) =>
+        {({ handleChange, handleBlur, handleSubmit, resetForm, values }) => (
           <View>
             <TextInput
               onChangeText={handleChange("title")}
@@ -52,16 +67,17 @@ export default function NewNote({
               thumbColor={values.anonyme ? "#f5dd4b" : "#f4f3f4"}
               ios_backgroundColor="#3e3e3e"
               onValueChange={toggleSwitch}
-              value={values.anonyme}
+              value={(values.anonyme = anonymeVal)}
             />
-            
+
             <Button
               children={"Submit"}
               onPressed={() => {
                 handleSubmit();
               }}
             />
-          </View>}
+          </View>
+        )}
       </Formik>
     </View>
   );
