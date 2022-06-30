@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text,ScrollView } from "react-native";
 import DataService from "../Services/Api";
 import { INote } from "../utils/types";
+import Card from "../Components/Card"
 
 export default function Notes({ navigation }: { navigation: any }) {
   const [notes, setNotes] = useState([] as INote[]);
@@ -15,11 +16,15 @@ export default function Notes({ navigation }: { navigation: any }) {
   }, []);
   return (
     <View style={styles.container}>
-      {notes.map((el) => (
-        <Text>
-          id : {el._id} title : {el.title}
-        </Text>
+      <ScrollView >
+        {notes.map((el) => (
+          <Card key={el._id}>
+            {el.title}
+            {el.text}
+        </Card>
       ))}
+      </ScrollView>
+      
     </View>
   );
 }
