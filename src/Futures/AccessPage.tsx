@@ -4,24 +4,25 @@ import { Formik } from "formik";
 import Button from "../Components/Button";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export default function AccessPage({   setIsDisconnected }: {
-
+export default function AccessPage({
+  setIsDisconnected,
+}: {
   setIsDisconnected: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
-  
   return (
     <View style={styles.container}>
       <Text>Voici la home Page</Text>
-      <Formik initialValues={{ author: "" }} onSubmit={(values) => {
-        AsyncStorage.setItem("author", values.author)
-        setIsDisconnected(false)
-      }}>
-        {({ handleChange, handleBlur, handleSubmit, resetForm, values }) =>
+      <Formik
+        initialValues={{ author: "" }}
+        onSubmit={async (values) => {
+          await AsyncStorage.setItem("author", values.author);
+          setIsDisconnected(false);
+        }}
+      >
+        {({ handleChange, handleBlur, handleSubmit, resetForm, values }) => (
           <View>
             <View style={{ flexDirection: "row" }}>
-              <Text
-                style={{ padding: 10 }}
-              > Name :</Text>
+              <Text style={{ padding: 10 }}> Name :</Text>
               <TextInput
                 onChangeText={handleChange("author")}
                 placeholder={"Title"}
@@ -33,11 +34,10 @@ export default function AccessPage({   setIsDisconnected }: {
               children={"Submit"}
               onPressed={() => {
                 handleSubmit();
-
-
               }}
             />
-          </View>}
+          </View>
+        )}
       </Formik>
       {/* <Text
         onPress={() => {
@@ -55,6 +55,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
-    justifyContent: "center"
-  }
+    justifyContent: "center",
+  },
 });

@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, TextInput, Switch, Text } from "react-native";
 import { Formik } from "formik";
 import Button from "./Button";
 import DataService from "../Services/Api";
 import { INote } from "../utils/types";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 interface MyFormValues {
   firstName: string;
@@ -17,8 +18,16 @@ export default function NewNote({
     const response = await DataService.create(values);
     return console.log(response.data);
   };
+  const [author, setAuthor] = useState("");
+  const getData = async () => {
+    const jsonValue = await AsyncStorage.getItem("author");
+    setAuthor(jsonValue ?? "");
+  };
   const [anonymeVal, setAnonymeVal] = useState(false);
   const toggleSwitch = () => setAnonymeVal((previousState) => !previousState);
+  useEffect(()=>{
+    getData();
+  },[])
   return (
     <View
       style={{
@@ -31,6 +40,7 @@ export default function NewNote({
         initialValues={{ title: "", tags: "", note: "", anonyme: anonymeVal }}
         onSubmit={(values) => {
           const note: INote = {
+            author : author,
             title: values.title,
             anonym: values.anonyme,
             tags: values.tags.split("#"),
