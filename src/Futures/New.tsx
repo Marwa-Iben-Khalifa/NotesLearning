@@ -8,7 +8,6 @@ export default function New({ navigation }: { navigation: any }) {
   },[values])
   return (
     <View style={styles.container}>
-      <Text>Voici la page new</Text>
       <NewNote setValues={setValues}></NewNote>
     </View>
   );
