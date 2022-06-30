@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { format } from "date-fns";
 import { StyleSheet, View, Text,ScrollView } from "react-native";
 import DataService from "../Services/Api";
 import { INote } from "../utils/types";
@@ -11,6 +12,8 @@ export default function Notes({ navigation }: { navigation: any }) {
     setNotes(response.data);
     return console.log(response.data);
   };
+  
+  
   useEffect(() => {
     handleNotes();
   }, []);
@@ -18,9 +21,9 @@ export default function Notes({ navigation }: { navigation: any }) {
     <View style={styles.container}>
       <ScrollView >
         {notes.map((el) => (
-          <Card key={el._id} title={el.title} text={el.text}>
+          <Card key={el._id} note={{...el, creation_date:format(new Date(el.creation_date), "MMMM do, yyyy H:mma")}}>
             {"\n"}
-            
+            {/* date={format(new Date(el.creation_date), "MMMM do, yyyy H:mma")} */}
         </Card>
       ))}
       </ScrollView>

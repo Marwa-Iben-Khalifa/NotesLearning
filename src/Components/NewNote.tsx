@@ -39,7 +39,6 @@ export default function NewNote({
       <Formik
         initialValues={{ title: "", tags: "", note: "", anonyme: anonymeVal }}
         onSubmit={(values) => {
-          const note: INote = {
             author : author,
             title: values.title,
             anonym: values.anonyme,
