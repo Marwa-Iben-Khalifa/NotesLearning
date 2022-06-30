@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View, Text, ScrollView } from "react-native";
+import { Swipeable } from "react-native-gesture-handler";
+import {Animated ,StyleSheet, View, Text, ScrollView ,TouchableOpacity} from "react-native";
 import DataService from "../Services/Api";
 import { INote } from "../utils/types";
 import Card from "../Components/Card";
@@ -8,6 +9,28 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 export default function MyNotes({ navigation }: { navigation: any }) {
   const [myNotes, setMyNotes] = useState([] as INote[]);
   const [author, setAuthor] = useState("");
+  const renderRightActions = (
+    progress: Animated.AnimatedInterpolation,
+    dragAnimatedValue: Animated.AnimatedInterpolation,
+  ) => {
+    const opacity = dragAnimatedValue.interpolate({
+      inputRange: [-150, 0],
+      outputRange: [1, 0],
+      extrapolate: 'clamp',
+    });
+    return (
+      <View >
+        {/* <View style={styles.swipedConfirmationContainer}>
+          <Text style={styles.deleteConfirmationText}>Are you sure?</Text>
+        </View> */}
+        <Animated.View style={[{backgroundColor:"#EB3E1B"}, {opacity}]}>
+          <TouchableOpacity>
+            <Text style={{color:"white" }}>Delete</Text>
+          </TouchableOpacity>
+        </Animated.View>
+      </View>
+    );
+  };
 
   const handleAuthor = async () => {
     const jsonValue = await AsyncStorage.getItem("author");
@@ -34,11 +57,14 @@ export default function MyNotes({ navigation }: { navigation: any }) {
   return (
     <View style={styles.container}>
       <ScrollView>
+      
         {myNotes.map((el) => (
-          <Card key={el._id} note={el}>
-            {"\n"}
-          </Card>
+          <Swipeable renderRightActions={renderRightActions}>
+            <Card key={el._id} note={el}>
+            </Card>
+          </Swipeable>
         ))}
+        
       </ScrollView>
     </View>
   );
