@@ -8,7 +8,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 export default function MyNotes({ navigation }: { navigation: any }) {
   const [myNotes, setMyNotes] = useState([] as INote[]);
   const [author, setAuthor] = useState("");
-  const getData = async () => {
+
+  const handleAuthor = async () => {
     const jsonValue = await AsyncStorage.getItem("author");
     setAuthor(jsonValue ?? "");
   };
@@ -20,9 +21,7 @@ export default function MyNotes({ navigation }: { navigation: any }) {
 
     setMyNotes(result);
   };
-  const handleAuthor = async () => {
-    await getData();
-  };
+
 
   useEffect(() => {
     handleAuthor();
@@ -36,7 +35,7 @@ export default function MyNotes({ navigation }: { navigation: any }) {
     <View style={styles.container}>
       <ScrollView>
         {myNotes.map((el) => (
-          <Card key={el._id} title={el.title} text={el.text}>
+          <Card key={el._id} note={el}>
             {"\n"}
           </Card>
         ))}

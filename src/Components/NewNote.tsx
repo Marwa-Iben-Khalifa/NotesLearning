@@ -29,6 +29,7 @@ export default function NewNote({
     getData();
   },[])
   return (
+    <>
     <View
       style={{
         backgroundColor: "white",
@@ -39,7 +40,8 @@ export default function NewNote({
       <Formik
         initialValues={{ title: "", tags: "", note: "", anonyme: anonymeVal }}
         onSubmit={(values) => {
-            author : author,
+          const note: Partial<INote> = {
+            author: author,
             title: values.title,
             anonym: values.anonyme,
             tags: values.tags.split("#"),
@@ -89,5 +91,6 @@ export default function NewNote({
         )}
       </Formik>
     </View>
+    </>
   );
 }
