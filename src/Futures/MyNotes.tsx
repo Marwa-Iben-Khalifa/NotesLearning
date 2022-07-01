@@ -49,13 +49,42 @@ export default function MyNotes({ navigation }: { navigation: any }) {
       extrapolate: "clamp",
     });
     return (
-      <View>
+      <View style={{ justifyContent: "space-around" }}>
         {/* <View style={styles.swipedConfirmationContainer}>
           <Text style={styles.deleteConfirmationText}>Are you sure?</Text>
         </View> */}
-        <Animated.View style={[{ backgroundColor: "#EB3E1B" }, { opacity }]}>
+        <Animated.View
+          style={[
+            {
+              backgroundColor: "#EB3E1B",
+              height: 50,
+              width: 120,
+              borderRadius: 50,
+              justifyContent: "center",
+              alignItems: "center",
+            },
+            { opacity },
+          ]}
+        >
           <TouchableOpacity onPress={() => deleteNote(id)}>
             <Text style={{ color: "white" }}>Delete</Text>
+          </TouchableOpacity>
+        </Animated.View>
+        <Animated.View
+          style={[
+            {
+              backgroundColor: "#F6BD60",
+              height: 50,
+              width: 120,
+              borderRadius: 50,
+              justifyContent: "center",
+              alignItems: "center",
+            },
+            { opacity },
+          ]}
+        >
+          <TouchableOpacity>
+            <Text style={{ color: "white" }}>Update</Text>
           </TouchableOpacity>
         </Animated.View>
       </View>
@@ -77,7 +106,7 @@ export default function MyNotes({ navigation }: { navigation: any }) {
   // console.log(myNotes[0]);
 
   return (
-    <View style={{ ...styles.container, paddingTop: 80 }}>
+    <View style={{ paddingTop: 80 }}>
       <ScrollView>
         {myNotes.map((el) => (
           <Swipeable
@@ -97,14 +126,7 @@ export default function MyNotes({ navigation }: { navigation: any }) {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
+
 function NotesService() {
   throw new Error("Function not implemented.");
 }
