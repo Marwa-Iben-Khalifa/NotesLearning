@@ -13,12 +13,14 @@ import { INote } from "../utils/types";
 import Card from "../Components/Card";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { LoginContext, NotesContext } from "../utils/context";
+import NoteModal from "../Components/UpdateModal";
 
 export default function MyNotes({ navigation }: { navigation: any }) {
   const { allNotes, setAllNotes, setReloadNotes } = useContext(NotesContext);
   const [myNotes, setMyNotes] = useState(allNotes);
   const { authorName, setAuthorName } = useContext(LoginContext);
   const [id, setId] = useState("");
+  const [modalVisible, setModalVisible] = useState(false);
 
   let row = useRef<any>({});
 
@@ -83,7 +85,7 @@ export default function MyNotes({ navigation }: { navigation: any }) {
             { opacity },
           ]}
         >
-          <TouchableOpacity>
+          <TouchableOpacity onPress={()=>{ setModalVisible(true)}}>
             <Text style={{ color: "white" }}>Update</Text>
           </TouchableOpacity>
         </Animated.View>
@@ -103,26 +105,34 @@ export default function MyNotes({ navigation }: { navigation: any }) {
     handleNotes();
   }, [authorName]);
 
-  // console.log(myNotes[0]);
+  console.log(modalVisible);
 
   return (
-    <View style={{ paddingTop: 80 }}>
-      <ScrollView>
-        {myNotes.map((el) => (
-          <Swipeable
-            key={el._id}
-            ref={(ref) => {
-              row.current[el._id] = ref;
-            }}
-            renderRightActions={(progress, dragAnimatedValue) =>
-              renderRightActions(progress, dragAnimatedValue, el._id)
-            }
-          >
-            <Card key={el._id} note={el} children={undefined}></Card>
-          </Swipeable>
-        ))}
-      </ScrollView>
-    </View>
+    <>
+      {modalVisible ?
+        <View>
+          <NoteModal modalVisible={modalVisible} setModalVisible={setModalVisible}></NoteModal>
+        </View>
+        :
+        <View style={{ paddingTop: 80 }}>
+          <ScrollView>
+            {myNotes.map((el) => (
+              <Swipeable
+                key={el._id}
+                ref={(ref) => {
+                  row.current[el._id] = ref;
+                }}
+                renderRightActions={(progress, dragAnimatedValue) =>
+                  renderRightActions(progress, dragAnimatedValue, el._id)
+                }
+              >
+                <Card key={el._id} note={el} children={undefined}></Card>
+              </Swipeable>
+            ))}
+          </ScrollView>
+        </View>
+      }
+      </>
   );
 }
 

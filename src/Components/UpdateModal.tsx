@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Alert, Modal, StyleSheet, Text, Pressable, View } from "react-native";
 
-const App = ({modalVisible,setModalVisible }:
+const NoteModal = ({modalVisible,setModalVisible }:
   {
     modalVisible: boolean;
     setModalVisible: React.Dispatch<React.SetStateAction<boolean>>
@@ -84,4 +84,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default App;
+export default NoteModal;

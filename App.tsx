@@ -1,10 +1,10 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import { LogBox} from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import AccessPage from "./src/Futures/AccessPage";
 import Home from "./src/Futures/Home";
-import Detail from "./src/Futures/New";
+import New from "./src/Futures/New";
 import MyNotes from "./src/Futures/MyNotes";
 import Notes from "./src/Futures/Notes";
 import Feather from "@expo/vector-icons/Feather";
@@ -16,7 +16,9 @@ import DataService from "./src/Services/Api";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
-
+LogBox.ignoreLogs([
+    "exported from 'deprecated-react-native-prop-types'.",
+])
 export default function App() {
   const [isDisconnected, setIsDisconnected] = useState(true);
   const [authorName, setAuthorName] = useState("");
@@ -81,7 +83,7 @@ export default function App() {
               />
               <Tab.Screen
                 name="New"
-                component={Detail}
+                component={New}
                 options={{
                   tabBarIcon: ({ color, size, focused }) => {
                     return <Feather name="plus" size={30} />;

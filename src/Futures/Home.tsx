@@ -30,8 +30,8 @@ export default function Home({ navigation }: { navigation: any }) {
           :
       <View style={styles.container}>
       <Text style={styles.text}>Hello {author}</Text>
-      <Text>Need to share some notes ?</Text>
-      <Text
+      <Text style={styles.secondaryText}>Need to share some notes ?</Text>
+      <Text style={styles.secondaryText}
         onPress={() => {
           navigation.navigate("New");
         }}
@@ -61,12 +61,19 @@ const styles = StyleSheet.create({
   text: {
     color: '#101010',
     fontSize: 24,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    padding:20
   },
   button: {
     padding: 20,
     marginTop: 100,
     borderRadius: 20,
     backgroundColor: "#D1ACA5"
+  },
+  secondaryText: {
+    color: "#083346",
+    fontWeight: "100",
+    fontSize: 18,
+    paddingTop:30
   }
 });
