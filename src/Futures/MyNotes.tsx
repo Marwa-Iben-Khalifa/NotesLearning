@@ -7,6 +7,7 @@ import {
   Text,
   ScrollView,
   TouchableOpacity,
+  RefreshControl,
 } from "react-native";
 import DataService from "../Services/Api";
 import { INote } from "../utils/types";
@@ -22,6 +23,10 @@ export default function MyNotes({ navigation }: { navigation: any }) {
   const [id, setId] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
   const [currentNote, setCurrentNote] = useState({} as INote);
+  const [loading,setLoading] = useState(true);
+  useEffect(() => {
+   allNotes && setLoading(false) 
+  },[])
 
   let row = useRef<any>({});
 
@@ -140,6 +145,7 @@ export default function MyNotes({ navigation }: { navigation: any }) {
                 <Card key={el._id} note={el} children={undefined}></Card>
               </Swipeable>
             ))}
+              <RefreshControl refreshing={loading} onRefresh={()=>{setReloadNotes(old =>!old)}} />
           </ScrollView>
         </View>
       )}
