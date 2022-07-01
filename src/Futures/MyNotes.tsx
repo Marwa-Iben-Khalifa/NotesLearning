@@ -1,70 +1,97 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Swipeable } from "react-native-gesture-handler";
-import {Animated ,StyleSheet, View, Text, ScrollView ,TouchableOpacity} from "react-native";
+import {
+  Animated,
+  StyleSheet,
+  View,
+  Text,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
 import DataService from "../Services/Api";
 import { INote } from "../utils/types";
 import Card from "../Components/Card";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { LoginContext, NotesContext } from "../utils/context";
 
 export default function MyNotes({ navigation }: { navigation: any }) {
-  const [myNotes, setMyNotes] = useState([] as INote[]);
-  const [author, setAuthor] = useState("");
+  const { allNotes, setAllNotes, setReloadNotes } = useContext(NotesContext);
+  const [myNotes, setMyNotes] = useState(allNotes);
+  const { authorName, setAuthorName } = useContext(LoginContext);
+  const [id, setId] = useState("");
+
+  let row = useRef<any>({});
+
+  const closeSwipeable = (id: string) => {
+    row.current[id].close();
+  };
+
+  const deleteNote = async (id: string) => {
+    console.log("im deleting");
+    await DataService.delete(id);
+    closeSwipeable(id);
+    setReloadNotes((old) => !old);
+  };
+
+  useEffect(() => {
+    console.log("taille des notes", allNotes.length);
+    handleNotes();
+  }, [allNotes]);
+
   const renderRightActions = (
     progress: Animated.AnimatedInterpolation,
     dragAnimatedValue: Animated.AnimatedInterpolation,
+    id: string
   ) => {
     const opacity = dragAnimatedValue.interpolate({
       inputRange: [-150, 0],
       outputRange: [1, 0],
-      extrapolate: 'clamp',
+      extrapolate: "clamp",
     });
     return (
-      <View >
+      <View>
         {/* <View style={styles.swipedConfirmationContainer}>
           <Text style={styles.deleteConfirmationText}>Are you sure?</Text>
         </View> */}
-        <Animated.View style={[{backgroundColor:"#EB3E1B"}, {opacity}]}>
-          <TouchableOpacity>
-            <Text style={{color:"white" }}>Delete</Text>
+        <Animated.View style={[{ backgroundColor: "#EB3E1B" }, { opacity }]}>
+          <TouchableOpacity onPress={() => deleteNote(id)}>
+            <Text style={{ color: "white" }}>Delete</Text>
           </TouchableOpacity>
         </Animated.View>
       </View>
     );
   };
 
-  const handleAuthor = async () => {
-    const jsonValue = await AsyncStorage.getItem("author");
-    setAuthor(jsonValue ?? "");
-  };
-  const handleNotes = async () => {
-    const response = await DataService.getAll();
-    const result = response.data.filter((word) => {
-      return word.author === author;
+  const handleNotes = () => {
+    const result = allNotes.filter((word) => {
+      return word.author === authorName;
     });
 
     setMyNotes(result);
   };
 
-
-  useEffect(() => {
-    handleAuthor();
-  }, []);
-
   useEffect(() => {
     handleNotes();
-  }, [author]);
+  }, [authorName]);
+
+  // console.log(myNotes[0]);
 
   return (
-    <View style={styles.container}>
+    <View style={{ ...styles.container, paddingTop: 80 }}>
       <ScrollView>
-      
         {myNotes.map((el) => (
-          <Swipeable renderRightActions={renderRightActions}>
-            <Card key={el._id} note={el}>
-            </Card>
+          <Swipeable
+            key={el._id}
+            ref={(ref) => {
+              row.current[el._id] = ref;
+            }}
+            renderRightActions={(progress, dragAnimatedValue) =>
+              renderRightActions(progress, dragAnimatedValue, el._id)
+            }
+          >
+            <Card key={el._id} note={el} children={undefined}></Card>
           </Swipeable>
         ))}
-        
       </ScrollView>
     </View>
   );

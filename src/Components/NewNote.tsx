@@ -17,7 +17,7 @@ export default function NewNote({
 }) {
   const sendNote = async (values: any) => {
     const response = await DataService.create(values);
-    return console.log(response.data);
+    // console.log(response.data);
   };
   const [author, setAuthor] = useState("");
   const [tags, setTags] = useState({ tag: "", tagsArray: [] });
@@ -32,7 +32,7 @@ export default function NewNote({
   }, []);
   const updateTagState = (state: any) => {
     setTags(state);
-    console.log(state);
+    // console.log(state);
   };
 
   return (

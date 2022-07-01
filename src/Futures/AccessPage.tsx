@@ -1,14 +1,19 @@
-import React from "react";
-import { StyleSheet, View, Text, TextInput } from "react-native";
+import React, { useContext, useState } from "react";
+import { StyleSheet, View, Text, TextInput, useColorScheme } from "react-native";
 import { Formik } from "formik";
 import Button from "../Components/Button";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { LoginContext } from "../utils/context";
 
-export default function AccessPage({
-  setIsDisconnected,
-}: {
-  setIsDisconnected: React.Dispatch<React.SetStateAction<boolean>>;
-}) {
+export default function AccessPage(
+  {
+    setIsDisconnected,
+  }: {
+    setIsDisconnected: React.Dispatch<React.SetStateAction<boolean>>,
+  
+  }
+) {
+  const {authorName, setAuthorName } = useContext(LoginContext);
   return (
     <View style={styles.container}>
       <Text>Voici la home Page</Text>
@@ -17,6 +22,7 @@ export default function AccessPage({
         onSubmit={async (values) => {
           await AsyncStorage.setItem("author", values.author);
           setIsDisconnected(false);
+          setAuthorName(values.author);
         }}
       >
         {({ handleChange, handleBlur, handleSubmit, resetForm, values }) => (

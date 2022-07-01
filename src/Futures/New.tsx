@@ -4,7 +4,7 @@ import NewNote from "../Components/NewNote"
 export default function New({ navigation }: { navigation: any }) {
   const [values, setValues] = useState({})
   useEffect(() => {
-    console.log(values)
+    //console.log(values)
   },[values])
   return (
     <View style={styles.container}>
