@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import { LogBox } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import AccessPage from "./src/Futures/AccessPage";
@@ -16,7 +16,9 @@ import DataService from "./src/Services/Api";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
-
+LogBox.ignoreLogs([
+  "exported from 'deprecated-react-native-prop-types'.",
+])
 export default function App() {
   const [isDisconnected, setIsDisconnected] = useState(true);
   const [authorName, setAuthorName] = useState("");
