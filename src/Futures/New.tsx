@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet,View, Text } from "react-native";
-import NewNote from "../Components/NewNote"
+import { StyleSheet, View, Text } from "react-native";
+import NewNote from "../Components/NewNote";
 export default function New({ navigation }: { navigation: any }) {
-  const [values, setValues] = useState({})
+  const [values, setValues] = useState({});
   useEffect(() => {
     //console.log(values)
-  },[values])
+  }, [values]);
   return (
     <View style={styles.container}>
       <NewNote setValues={setValues}></NewNote>
@@ -16,8 +16,8 @@ export default function New({ navigation }: { navigation: any }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });

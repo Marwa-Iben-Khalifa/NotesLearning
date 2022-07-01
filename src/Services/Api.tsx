@@ -13,5 +13,8 @@ class DataService {
   findByAuthor(author: string) {
     return http.get<Array<INote>>(`/?author=${author}`);
   }
+  update(data: INote, id: any) {
+    return http.put<any>(`/${id}`, data);
+  }
 }
 export default new DataService();

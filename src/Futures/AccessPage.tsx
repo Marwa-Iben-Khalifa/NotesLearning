@@ -1,22 +1,26 @@
 import React, { useContext, useState } from "react";
-import { StyleSheet, View, Text, TextInput, useColorScheme } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  TextInput,
+  useColorScheme,
+} from "react-native";
 import { Formik } from "formik";
 import Button from "../Components/Button";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { LoginContext } from "../utils/context";
 
-export default function AccessPage(
-  {
-    setIsDisconnected,
-  }: {
-    setIsDisconnected: React.Dispatch<React.SetStateAction<boolean>>,
-  
-  }
-) {
-  const {authorName, setAuthorName } = useContext(LoginContext);
+export default function AccessPage({
+  setIsDisconnected,
+}: {
+  setIsDisconnected: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
+  const { authorName, setAuthorName } = useContext(LoginContext);
   return (
-    <View style={styles.container}>
-      <Text>Voici la home Page</Text>
+    <View style={{ marginTop: 80 }}>
+      <Text style={styles.h1}>Bienvenue dans MyNote</Text>
+      <Text style={styles.title}>Veuillez saisir votre pseudo :</Text>
       <Formik
         initialValues={{ author: "" }}
         onSubmit={async (values) => {
@@ -37,7 +41,8 @@ export default function AccessPage(
               />
             </View>
             <Button
-              children={"Submit"}
+              style={styles.button}
+              children={"Valider"}
               onPressed={() => {
                 handleSubmit();
               }}
@@ -57,10 +62,38 @@ export default function AccessPage(
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
+  input: {
+    borderColor: "gray",
+    width: "70%",
+    borderWidth: 1,
+    borderRadius: 10,
+    padding: 20,
+    marginTop: 40,
+    // marginLeft: 40,
+  },
+  h1: {
+    fontSize: 25,
+    fontWeight: "bold",
+    marginLeft: 30,
+    marginBottom: 50,
+  },
+  title: {
+    marginTop: 20,
+    fontSize: 20,
+    marginLeft: 30,
+    marginBottom: 50,
+  },
+  switch: {
+    marginTop: 40,
+  },
+  row: {
+    flexDirection: "row",
+    marginLeft: 30,
+    // justifyContent: "space-evenly",
+  },
+  button: {
+    width: "23%",
+    marginLeft: 130,
+    marginTop: 30,
   },
 });

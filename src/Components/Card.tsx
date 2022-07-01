@@ -12,6 +12,7 @@ export default function Card({
   const urlPhoto = note.image
     ? note.image
     : "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png";
+  const colors = ["red", "green", "blue", "orange", "yellow"];
   return (
     <View
       style={{
@@ -28,6 +29,29 @@ export default function Card({
       />
       <Text style={{ margin: 10 }}>{note.title}</Text>
       <Text style={{ margin: 10 }}>{note.text}</Text>
+      <View
+        style={{
+          backgroundColor: "#7CA1B4",
+          flex: 1,
+          flexDirection: "row",
+          flexWrap: "wrap",
+        }}
+      >
+        {note.tags.map((tag, index) => {
+          return (
+            <Text
+              key={index}
+              style={{
+                margin: 10,
+                color: colors[Math.floor(Math.random() * colors.length)],
+              }}
+            >
+              {tag}
+            </Text>
+          );
+        })}
+      </View>
+
       <Text style={{ margin: 10 }}>{note.creation_date}</Text>
     </View>
   );
